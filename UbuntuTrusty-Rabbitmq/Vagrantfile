@@ -1,0 +1,24 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+	config.vm.hostname = "symfonyday-rome-mq"
+
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.box_version = "20150530.0.1"
+#precise64"
+#	config.vm.box_url = "https://vagrantcloud.com/hashicorp/boxes/precise64/versions/1.1.0/providers/virtualbox.box"
+
+	config.vm.network :forwarded_port, guest: 5672, host: 55672
+	config.vm.network :forwarded_port, guest: 15672, host: 55672
+
+	config.vm.provision :puppet do |puppet|
+	  puppet.manifests_path = "puppet/manifests"
+    puppet.module_path = "puppet/modules"
+  end
+  
+	config.vm.provider :virtualbox do |v|
+		v.name = "symfonyday-rome-mq"
+	end
+
+end
