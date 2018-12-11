@@ -1,0 +1,20 @@
+# Just build javascript/PHP (FLAGSHIP) without 9999999999 docker containers
+#
+Vagrant.configure("2") do |config|
+        config.vm.box = "centos/7"
+        config.vm.network "private_network", ip: "192.168.120.40"
+
+        config.vm.hostname = "cirque-centos.vm"
+        config.vm.provider :virtualbox do |v|
+          v.customize ["modifyvm", :id, "--memory", 2048]
+          v.customize ["modifyvm", :id, "--cpus", 4]
+        end
+        $script = <<-SCRIPT
+#!/bin/bash
+set -x;
+echo "Hello world"
+SCRIPT
+
+        config.vm.provision "shell", inline: $script
+end
+
